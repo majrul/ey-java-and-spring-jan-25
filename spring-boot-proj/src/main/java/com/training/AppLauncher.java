@@ -8,7 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 //@ComponentScan("com.abc.component")
 public class AppLauncher {
 
-	public static void main(String[] args) {		
+	public static void main(String[] args) {	
+		//System.setProperty("spring.profiles.active", "test");
 		SpringApplication.run(AppLauncher.class);
 	}
 }
