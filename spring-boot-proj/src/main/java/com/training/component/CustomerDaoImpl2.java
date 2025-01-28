@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component("c2")
-@Profile("test")
+//@Profile("test")
 public class CustomerDaoImpl2 implements CustomerDao {
 
 	public CustomerDaoImpl2() {

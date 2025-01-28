@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerService {
 
+	@Autowired
+	private LoginService loginService;
+	
 	@Autowired // IoC / DI / Wiring
 	private EmailService emailService;
 	
@@ -16,7 +19,7 @@ public class CustomerService {
 	private OrderDao orderDao;
 	
 	@Autowired
-	//@Qualifier("c4")
+	//@Qualifier("c1")
 	private CustomerDao customerDao;
 
 	public void placeOrder() {
