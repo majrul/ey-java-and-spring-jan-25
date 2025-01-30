@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.training.dto.OrderDetails;
+import com.training.dto.OrderStatus;
+import com.training.exception.OrderException;
 import com.training.service.OrderService;
 
 @RestController
@@ -25,9 +27,19 @@ public class OrderController {
 		}
 	 */
 	@PostMapping("/placeOrder")
-	public String placeOrder(@RequestBody OrderDetails orderDetails) {
-		orderService.placeOrder(orderDetails);
-		
-		return "Order placed successfully!";
+	public OrderStatus placeOrder(@RequestBody OrderDetails orderDetails) {
+		OrderStatus orderStatus = new OrderStatus();
+		try {
+			int id = orderService.placeOrder(orderDetails);
+			
+			orderStatus.setOrderId(id);
+			orderStatus.setStatus(true);
+			orderStatus.setMessageIfAny("Order placed successfully!");
+		}
+		catch(OrderException e) {
+			orderStatus.setStatus(false);
+			orderStatus.setMessageIfAny(e.getMessage());
+		}
+		return orderStatus;
 	}
 }
