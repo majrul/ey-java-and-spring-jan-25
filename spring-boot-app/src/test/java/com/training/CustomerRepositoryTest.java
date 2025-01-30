@@ -21,8 +21,8 @@ class CustomerRepositoryTest {
 	@Test
 	void add() {
 		Customer cust = new Customer();
-		cust.setName("Smith");
-		cust.setEmail("smith@gmail");
+		cust.setName("Ana");
+		cust.setEmail("ana@gmail");
 		cust.setDateOfBirth(LocalDate.of(1990, 10, 10));
 		
 		customerRepository.save(cust);
