@@ -1,6 +1,8 @@
 package com.training.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,4 +44,38 @@ public class OrderController {
 		}
 		return orderStatus;
 	}
+	
+	@PostMapping("/placeOrderv2")
+	public ResponseEntity<OrderStatus> placeOrderv2(@RequestBody OrderDetails orderDetails) {
+		OrderStatus orderStatus = new OrderStatus();
+		try {
+			int id = orderService.placeOrder(orderDetails);
+			
+			orderStatus.setOrderId(id);
+			orderStatus.setStatus(true);
+			orderStatus.setMessageIfAny("Order placed successfully!");
+			
+			return new ResponseEntity<OrderStatus>(orderStatus, HttpStatus.OK);
+		}
+		catch(OrderException e) {
+			orderStatus.setStatus(false);
+			orderStatus.setMessageIfAny(e.getMessage());
+			
+			return new ResponseEntity<OrderStatus>(orderStatus, HttpStatus.BAD_REQUEST);			
+		}
+	}
+
+	@PostMapping("/placeOrderv3")
+	public ResponseEntity<OrderStatus> placeOrderv3(@RequestBody OrderDetails orderDetails) {
+		OrderStatus orderStatus = new OrderStatus();
+		
+		int id = orderService.placeOrder(orderDetails);
+		
+		orderStatus.setOrderId(id);
+		orderStatus.setStatus(true);
+		orderStatus.setMessageIfAny("Order placed successfully!");
+		
+		return new ResponseEntity<OrderStatus>(orderStatus, HttpStatus.OK);
+	}
+
 }
