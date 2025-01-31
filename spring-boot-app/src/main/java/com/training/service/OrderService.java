@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,9 @@ import com.training.repository.ProductRepository;
 @Service
 public class OrderService {
 
+	@Autowired
+	private CacheManager cacheManager;
+	
 	@Autowired
 	private CustomerRepository customerRepository;
 	
@@ -61,6 +67,15 @@ public class OrderService {
 				product.setQuantity(product.getQuantity() - orderDetails.getQuantity());
 				productRepository.save(product);
 				
+				Cache cache = cacheManager.getCache("orders.cache");
+				//cache.clear();
+				SimpleValueWrapper ordersWrapper = (SimpleValueWrapper) cache.get(orderDetails.getEmail());
+				if(ordersWrapper != null) {
+					List<Order> orders = (List<Order>) ordersWrapper.get();
+					orders.add(order);
+					cache.put(orderDetails.getEmail(), orders);
+				}
+				
 				return order.getId();
 			}		
 		}
@@ -69,6 +84,11 @@ public class OrderService {
 	@Cacheable(value = "orders.cache", key = "#email")
 	public List<Order> getOrders(String email) {
 		return orderRepository.findByEmail(email);
+	}
+
+	@Cacheable(value = "orders2.cache", key = "#customerId")
+	public List<Order> getOrders(int customerId) {
+		return orderRepository.findByCustomerId(customerId);
 	}
 }
 
