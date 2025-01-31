@@ -1,5 +1,6 @@
 package com.training.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Table(name = "tbl_cust")
 @Getter
 @Setter
-public class Customer {
+public class Customer implements Serializable {
 
 	@Id //pk
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
