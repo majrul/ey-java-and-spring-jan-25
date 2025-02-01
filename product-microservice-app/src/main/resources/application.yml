@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: product-microservice-app
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/product-db;AUTO_SERVER=TRUE
+    username: sa
+    password: 
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    
+server:
+  port: 8001
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+      
