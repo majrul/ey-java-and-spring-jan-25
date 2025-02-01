@@ -24,4 +24,7 @@ public class Product implements Serializable {
     private String name;
     private double price;
     private int quantity;
+    
+    @Transient
+    private String serviceAddress;
 }

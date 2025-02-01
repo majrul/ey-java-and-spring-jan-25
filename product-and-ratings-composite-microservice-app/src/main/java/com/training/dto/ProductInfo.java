@@ -14,6 +14,8 @@ public class ProductInfo {
 	private double price;
 	private int quantity;
 	
+	private String serviceAddress;
+	
 	private List<RatingInfo> ratings;
 	
 	
